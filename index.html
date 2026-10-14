@@ -429,7 +429,7 @@ footer.credit{margin-top:6px;padding-top:18px;border-top:1px solid var(--line);t
 
   /* ---------- Início ---------- */
   window.addEventListener('resize', fit);
-  if (window.ResizeObserver) new ResizeObserver(fit).observe(scaleBox.parentElement);
+  if (window.ResizeObserver) { const ro = new ResizeObserver(fit); ro.observe(scaleBox.parentElement); ro.observe(root); }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
   update();
 })();
