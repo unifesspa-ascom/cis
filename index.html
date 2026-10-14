@@ -66,9 +66,6 @@ h1{margin:0;font-size:28px;font-weight:800;letter-spacing:-.01em}
 .btn-accent:hover{background:var(--accent-ink)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn-accent{color:#14141c}}
 :root[data-theme="dark"] .btn-accent{color:#14141c}
-.sw{width:24px;height:24px;border-radius:50%;border:0;padding:0;cursor:pointer;box-shadow:0 0 0 1px var(--line),inset 0 0 0 2px var(--surface)}
-.sw:hover,.sw:focus-visible{box-shadow:0 0 0 2px var(--accent),inset 0 0 0 2px var(--surface)}
-.tb.cor0{font-size:12px}
 .btn-accent.done{background:#007a67}
 #status{font-size:13px;color:var(--muted);line-height:1.4}
 #status.ok{color:var(--ok)}
@@ -97,15 +94,6 @@ footer.credit{margin-top:6px;padding-top:18px;border-top:1px solid var(--line);t
       <div class="toolbar" role="toolbar" aria-label="Formatação">
         <button class="tb" type="button" data-cmd="bold" title="Negrito (Ctrl+B)" aria-label="Negrito">N</button>
         <button class="tb i" type="button" data-cmd="italic" title="Itálico (Ctrl+I)" aria-label="Itálico">I</button>
-        <span class="sep"></span>
-        <span class="swatches" role="group" aria-label="Cor do texto selecionado" style="display:inline-flex;align-items:center;gap:6px">
-          <button class="sw" type="button" data-color="#ff9800" style="background:#ff9800" title="Laranja" aria-label="Texto laranja"></button>
-          <button class="sw" type="button" data-color="#db2d46" style="background:#db2d46" title="Vermelho" aria-label="Texto vermelho"></button>
-          <button class="sw" type="button" data-color="#271abf" style="background:#271abf" title="Azul escuro" aria-label="Texto azul escuro"></button>
-          <button class="sw" type="button" data-color="#4437ff" style="background:#4437ff" title="Azul" aria-label="Texto azul"></button>
-          <button class="sw" type="button" data-color="#01a88c" style="background:#01a88c" title="Verde" aria-label="Texto verde"></button>
-          <button class="tb cor0" type="button" data-color="" title="Voltar à cor padrão do texto" aria-label="Cor padrão" style="width:auto;padding:0 8px">Padrão</button>
-        </span>
         <span class="sep"></span>
         <button class="tb" type="button" id="imgBtn" title="Inserir imagem no texto" aria-label="Inserir imagem"><svg viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="1.5"/><circle cx="6" cy="7" r="1"/><path d="M3 12l3.5-3.5L9 11l2-2 2 2.5"/></svg></button>
         <input type="file" id="imgFile" accept="image/*" hidden>
@@ -214,8 +202,6 @@ footer.credit{margin-top:6px;padding-top:18px;border-top:1px solid var(--line);t
         let r = inner;
         if (/font-weight:\s*(bold|[6-9]00)/i.test(st)) r = '<b>' + r + '</b>';
         if (/font-style:\s*italic/i.test(st)) r = '<i>' + r + '</i>';
-        const hex = toHex((node.style && node.style.color) || node.getAttribute('color'));
-        if (hex && PALETTE.indexOf(hex) > -1) r = '<span style="color:' + hex + ';">' + r + '</span>';
         return r;
       }
       return inner;
@@ -323,26 +309,7 @@ footer.credit{margin-top:6px;padding-top:18px;border-top:1px solid var(--line);t
 
   /* ---------- Barra de formatação ---------- */
   try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch(e) {}
-  const INK_TXT = '#1c1c2b';
-  const PALETTE = ['#ff9800','#db2d46','#271abf','#4437ff','#01a88c'];
   const btns = Array.prototype.slice.call(document.querySelectorAll('.tb[data-cmd]'));
-  Array.prototype.forEach.call(document.querySelectorAll('[data-color]'), b => {
-    b.addEventListener('mousedown', e => e.preventDefault());
-    b.addEventListener('click', () => {
-      ed.focus();
-      try { document.execCommand('styleWithCSS', false, true); } catch(e) {}
-      document.execCommand('foreColor', false, b.dataset.color || INK_TXT);
-      try { document.execCommand('styleWithCSS', false, false); } catch(e) {}
-      update();
-    });
-  });
-  function toHex(c){
-    c = String(c||'').trim().toLowerCase();
-    let m = c.match(/^#([0-9a-f]{6})$/); if (m) return '#' + m[1];
-    m = c.match(/^#([0-9a-f])([0-9a-f])([0-9a-f])$/); if (m) return '#' + m[1]+m[1]+m[2]+m[2]+m[3]+m[3];
-    m = c.match(/^rgba?\(\s*(\d+)[ ,]+(\d+)[ ,]+(\d+)/);
-    return m ? '#' + [m[1],m[2],m[3]].map(n => ('0' + (+n).toString(16)).slice(-2)).join('') : '';
-  }
   btns.forEach(b => {
     b.addEventListener('mousedown', e => e.preventDefault());
     b.addEventListener('click', () => {
