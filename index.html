@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comunicado da CIS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Padrão das ferramentas de e-mail da ASCOM
+   (mesma base da "Nota de pesar": editor + pré-visualização + copiar)
+   ============================================================ */
+:root{
+  --bg:#eef0ef; --surface:#ffffff; --fg:#17251d; --muted:#586a5e; --line:#d7dcd8;
+  --accent:#1d4ed8; --accent-ink:#163fb0; --accent-bg:#eaf0fd; --ok:#15803d;
+  --font:'Montserrat',Arial,Helvetica,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10140f; --surface:#1a211a; --fg:#e9efea; --muted:#9db0a2; --line:#2c352c;
+    --accent:#5b8bf0; --accent-ink:#8bb0f5; --accent-bg:#1b2436; --ok:#4ade80;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10140f; --surface:#1a211a; --fg:#e9efea; --muted:#9db0a2; --line:#2c352c;
+  --accent:#5b8bf0; --accent-ink:#8bb0f5; --accent-bg:#1b2436; --ok:#4ade80;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased}
+
+.wrap{max-width:1160px;margin:0 auto;padding:30px 16px 40px;display:flex;flex-direction:column;gap:20px}
+h1{margin:0;font-size:28px;font-weight:800;letter-spacing:-.01em}
+.lead{margin:8px 0 0;color:var(--muted);font-size:15px;line-height:1.6;max-width:780px}
+.grid{display:grid;gap:20px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:980px){.grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05)}
+.card h2{margin:0;font-size:16px;font-weight:700}
+.hint{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
+
+.toolbar{display:flex;align-items:center;gap:6px;margin:14px 0 10px;flex-wrap:wrap}
+.tb{width:30px;height:30px;border-radius:7px;border:1px solid var(--line);background:transparent;color:var(--fg);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font:700 14px var(--font);padding:0}
+.tb:hover{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+.tb.on{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+.tb svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.tb.i{font-style:italic;font-weight:600}
+.sep{width:1px;height:20px;background:var(--line);margin:0 4px}
+
+#editor{min-height:300px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:17px;line-height:1.7;outline:none;background:var(--surface);color:var(--fg);overflow-wrap:anywhere}
+#editor:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+#editor p{margin:0 0 14px}
+#editor img{max-width:100%;height:auto;border-radius:6px;cursor:pointer}
+#editor img.sel{outline:3px solid var(--accent)}
+.sizes{display:none;align-items:center;gap:8px;margin:0 0 10px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.sizes.on{display:flex}
+.sizes button{border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:7px;padding:4px 10px;font:600 12px var(--font);cursor:pointer}
+.sizes button:hover{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+#editor.is-empty::before{content:attr(data-placeholder);color:var(--muted);pointer-events:none;position:absolute}
+#editor{position:relative}
+
+.actions{display:flex;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap}
+.btn-accent{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:12px 18px;font:700 14px var(--font);cursor:pointer}
+.btn-accent:hover{background:var(--accent-ink)}
+.btn-accent.done{background:var(--ok)}
+#status{font-size:13px;color:var(--muted);line-height:1.4}
+#status.ok{color:var(--ok)}
+#status.warn{color:#b45309}
+:root[data-theme="dark"] #status.warn{color:#fbbf24}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #status.warn{color:#fbbf24}}
+
+.stagebox{margin-top:14px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;overflow:hidden}
+#emailScale{position:relative;width:100%}
+#emailRoot{width:745px;transform-origin:top left;background:#fff;position:absolute;left:0;top:0}
+
+footer.credit{margin-top:6px;padding-top:18px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Comunicado da CIS</h1>
+    <p class="lead">Escreva o texto do comunicado. O cabeçalho e o rodapé já estão prontos. Selecione qualquer trecho (nome, data, assinatura) para aplicar negrito ou itálico. Use o botão de imagem quando precisar incluir uma foto ou arte no texto. No final, copie o conteúdo gerado e cole no corpo do e-mail.</p>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Texto do comunicado</h2>
+      <p class="hint">Clique no campo abaixo e escreva. Depois, selecione um trecho e use os botões para negrito ou itálico.</p>
+
+      <div class="toolbar" role="toolbar" aria-label="Formatação">
+        <button class="tb" type="button" data-cmd="bold" title="Negrito (Ctrl+B)" aria-label="Negrito">N</button>
+        <button class="tb i" type="button" data-cmd="italic" title="Itálico (Ctrl+I)" aria-label="Itálico">I</button>
+        <span class="sep"></span>
+        <button class="tb" type="button" id="imgBtn" title="Inserir imagem no texto" aria-label="Inserir imagem"><svg viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="1.5"/><circle cx="6" cy="7" r="1"/><path d="M3 12l3.5-3.5L9 11l2-2 2 2.5"/></svg></button>
+        <input type="file" id="imgFile" accept="image/*" hidden>
+        <span class="sep"></span>
+        <button class="tb" type="button" data-cmd="justifyLeft" title="Alinhar à esquerda" aria-label="Alinhar à esquerda"><svg viewBox="0 0 16 16"><path d="M2 3h12M2 6.5h8M2 10h12M2 13.5h8"/></svg></button>
+        <button class="tb" type="button" data-cmd="justifyCenter" title="Centralizar" aria-label="Centralizar"><svg viewBox="0 0 16 16"><path d="M2 3h12M4 6.5h8M2 10h12M4 13.5h8"/></svg></button>
+        <button class="tb" type="button" data-cmd="justifyRight" title="Alinhar à direita" aria-label="Alinhar à direita"><svg viewBox="0 0 16 16"><path d="M2 3h12M6 6.5h8M2 10h12M6 13.5h8"/></svg></button>
+        <button class="tb" type="button" data-cmd="justifyFull" title="Justificar" aria-label="Justificar"><svg viewBox="0 0 16 16"><path d="M2 3h12M2 6.5h12M2 10h12M2 13.5h12"/></svg></button>
+      </div>
+
+      <div class="sizes" id="sizes">Imagem selecionada:
+        <button type="button" data-w="657">Largura total</button>
+        <button type="button" data-w="440">Média</button>
+        <button type="button" data-w="260">Pequena</button>
+        <button type="button" data-del="1">Remover</button>
+      </div>
+      <div id="editor" class="is-empty" contenteditable="true" spellcheck="true" data-placeholder="Escreva aqui o texto do comunicado..." aria-label="Texto do comunicado"></div>
+
+      <div class="actions">
+        <button class="btn-accent" id="copyBtn" type="button">Copiar comunicado pronto</button>
+        <span id="status" role="status" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Pré-visualização</h2>
+      <p class="hint">Exatamente como vai ficar no e-mail.</p>
+      <div class="stagebox">
+        <div id="emailScale"><div id="emailRoot"></div></div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="credit">Ferramenta desenvolvida pela ASCOM.</footer>
+</div>
+
+<script>
+(function(){
+  /* ==========================================================
+     CONFIGURAÇÃO (é só aqui que muda de uma ferramenta para outra)
+     ----------------------------------------------------------
+     headerImg / footerImg: imagens fixas do e-mail, 745 px de largura.
+       Aceita endereço (ex.: 'header.png') ou imagem em base64.
+       Se ficarem vazias, a página procura os arquivos header.png e
+       footer.png na mesma pasta. Sem imagem, usa o cabeçalho e o
+       rodapé de texto abaixo.
+     ========================================================== */
+  const CONFIG = {
+    headerImg: '',
+    footerImg: '',
+    headerAlt: 'CIS PCCTAE Unifesspa',
+    footerAlt: 'Comissão Interna de Supervisão do PCCTAE da Unifesspa',
+    site: 'cis.unifesspa.edu.br',
+    email: 'cis@unifesspa.edu.br',
+    siteExemplo: 'cis.unifesspa.edu.br',
+    emailExemplo: 'cis@unifesspa.edu.br'
+  };
+
+  const $ = id => document.getElementById(id);
+  const ed = $('editor'), root = $('emailRoot'), scaleBox = $('emailScale');
+  const FONT = "Montserrat,Arial,Helvetica,sans-serif";
+  const GREEN = '#0b4a33', LIME = '#a6d63f', INK = '#1f2a24';
+
+  const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const escAttr = s => esc(s).replace(/"/g,'&quot;');
+  const abs = u => /^data:/i.test(u) ? u : new URL(u, location.href).href;
+  const siteUrl = s => /^https?:\/\//i.test(s.trim()) ? s.trim() : 'https://' + s.trim();
+  const siteShow = s => s.trim().replace(/^https?:\/\//i,'').replace(/\/$/,'');
+
+  let headerSrc = CONFIG.headerImg, footerSrc = CONFIG.footerImg;
+  function probe(file, set){
+    const im = new Image();
+    im.onload = () => { set(file); update(); };
+    im.src = file;
+  }
+  if (!headerSrc) probe('header.png', v => headerSrc = v);
+  if (!footerSrc) probe('footer.png', v => footerSrc = v);
+  /* rodapé em duas metades clicáveis: site (esquerda) e e-mail (direita) */
+  let footSite = '', footMail = '';
+  probe('footer-site.png', v => footSite = v);
+  probe('footer-email.png', v => footMail = v);
+
+  /* ---------- Limpeza do texto digitado ---------- */
+  function cleanParagraphs(html){
+    const doc = new DOMParser().parseFromString('<body>' + html + '</body>', 'text/html');
+    const BLOCK = /^(p|div|li|h[1-6]|blockquote|ul|ol)$/;
+
+    function inline(node){
+      if (node.nodeType === 3) return esc(node.nodeValue.replace(/ /g,' '));
+      if (node.nodeType !== 1) return '';
+      const t = node.tagName.toLowerCase();
+      const inner = Array.prototype.map.call(node.childNodes, inline).join('');
+      if (t === 'br') return '<br>';
+      if (t === 'img' && /^(data:image\/|https?:)/i.test(node.getAttribute('src') || '')) {
+        const w = Math.min(657, parseInt(node.getAttribute('data-w') || '657', 10) || 657);
+        return '<img src="' + escAttr(node.getAttribute('src')) + '" width="' + w + '" alt="' + escAttr(node.getAttribute('alt') || '') + '" style="display:inline-block;width:' + w + 'px;max-width:100%;height:auto;border:0;vertical-align:bottom;">';
+      }
+      if (!inner) return '';
+      if (t === 'b' || t === 'strong') return '<b>' + inner + '</b>';
+      if (t === 'i' || t === 'em') return '<i>' + inner + '</i>';
+      if (t === 'u') return '<u>' + inner + '</u>';
+      if (t === 'a' && node.getAttribute('href')) return '<a href="' + escAttr(node.getAttribute('href')) + '" style="color:#0b6b46;">' + inner + '</a>';
+      if (t === 'span' || t === 'font') {
+        const st = node.getAttribute('style') || '';
+        let r = inner;
+        if (/font-weight:\s*(bold|[6-9]00)/i.test(st)) r = '<b>' + r + '</b>';
+        if (/font-style:\s*italic/i.test(st)) r = '<i>' + r + '</i>';
+        return r;
+      }
+      return inner;
+    }
+    function alignOf(el){
+      const a = (el.style && el.style.textAlign) || el.getAttribute('align') || '';
+      return /^(left|center|right|justify)$/.test(a) ? a : 'left';
+    }
+    const out = [];
+    function walk(parent, inheritAlign){
+      let run = '';
+      const flush = () => { if (run.replace(/<br>/g,'').trim() !== '' || /<img /.test(run)) out.push({align: inheritAlign, html: run}); run = ''; };
+      Array.prototype.forEach.call(parent.childNodes, child => {
+        if (child.nodeType === 1 && BLOCK.test(child.tagName.toLowerCase())) {
+          flush();
+          const al = alignOf(child) === 'left' && child.style && !child.style.textAlign ? inheritAlign : alignOf(child);
+          const hasBlock = Array.prototype.some.call(child.childNodes, c => c.nodeType === 1 && BLOCK.test(c.tagName.toLowerCase()));
+          if (hasBlock) walk(child, al);
+          else {
+            const h = Array.prototype.map.call(child.childNodes, inline).join('');
+            if (h.replace(/<br>/g,'').trim() !== '' || /<img /.test(h)) out.push({align: al, html: h});
+          }
+        } else run += inline(child);
+      });
+      flush();
+    }
+    walk(doc.body, 'left');
+    return out;
+  }
+
+  /* ---------- Cabeçalho e rodapé ---------- */
+  function stairs(){
+    const hs = [14,22,30,38,46], cols = ['#5f8f2c','#5f8f2c','#5f8f2c','#5f8f2c', LIME];
+    return '<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="right"><tr valign="bottom">' +
+      hs.map((h,i) => '<td width="10" height="' + h + '" bgcolor="' + cols[i] + '" style="font-size:0;line-height:0;width:10px;height:' + h + 'px;">&nbsp;</td>' + (i < 4 ? '<td width="5" style="width:5px;font-size:0;line-height:0;">&nbsp;</td>' : '')).join('') +
+      '</tr></table>';
+  }
+  function headerHtml(){
+    if (headerSrc) return '<img src="' + escAttr(abs(headerSrc)) + '" width="745" alt="' + escAttr(CONFIG.headerAlt) + '" style="display:block;width:100%;max-width:745px;height:auto;border:0;">';
+    return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="' + GREEN + '" style="background:' + GREEN + ';"><tr>' +
+      '<td style="padding:30px 0 30px 44px;font-family:' + FONT + ';">' +
+        '<div style="font-size:12px;font-weight:700;letter-spacing:2.4px;color:' + LIME + ';text-transform:uppercase;">Comissão Interna de Supervisão</div>' +
+        '<div style="font-size:38px;line-height:1.1;font-weight:800;color:#ffffff;margin-top:8px;">CIS <span style="color:' + LIME + ';">PCCTAE</span></div>' +
+        '<div style="font-size:14px;color:#cfe5d8;margin-top:8px;">Unifesspa</div>' +
+      '</td>' +
+      '<td valign="bottom" style="padding:0 44px 32px 10px;">' + stairs() + '</td>' +
+    '</tr></table>';
+  }
+  function footerHtml(){
+    if (footSite && footMail) {
+      const a = (href, src, w, alt) => '<a href="' + escAttr(href) + '" style="text-decoration:none;border:0;"><img src="' + escAttr(abs(src)) + '" width="' + w + '" alt="' + escAttr(alt) + '" style="display:block;border:0;width:' + w + 'px;height:auto;"></a>';
+      /* 1863 px de largura total: corte em 920 -> 368 px + 377 px a 745 px */
+      return '<table role="presentation" width="745" cellpadding="0" cellspacing="0" border="0" bgcolor="#f5f5f5" style="width:745px;max-width:100%;background:#f5f5f5;"><tr>' +
+        '<td width="368" style="padding:0;font-size:0;line-height:0;">' + a(siteUrl(CONFIG.site), footSite, 368, siteShow(CONFIG.site)) + '</td>' +
+        '<td width="377" style="padding:0;font-size:0;line-height:0;">' + a('mailto:' + CONFIG.email.trim(), footMail, 377, CONFIG.email.trim()) + '</td>' +
+      '</tr></table>';
+    }
+    if (footerSrc) return '<img src="' + escAttr(abs(footerSrc)) + '" width="745" alt="' + escAttr(CONFIG.footerAlt) + '" style="display:block;width:100%;max-width:745px;height:auto;border:0;">';
+    const site = siteShow(CONFIG.site), url = siteUrl(CONFIG.site);
+    return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#eef3ef" style="background:#eef3ef;border-top:4px solid ' + LIME + ';"><tr>' +
+      '<td style="padding:24px 44px;font-family:' + FONT + ';color:' + INK + ';">' +
+        '<div style="font-size:12px;font-weight:700;letter-spacing:2px;color:#0e6b46;text-transform:uppercase;">Fale com a CIS</div>' +
+        '<div style="font-size:15px;line-height:1.7;margin-top:8px;"><b>Site:</b> <a href="' + escAttr(url) + '" style="color:#0b6b46;text-decoration:underline;">' + esc(site) + '</a><br>' +
+        '<b>E-mail:</b> <a href="mailto:' + escAttr(CONFIG.email.trim()) + '" style="color:#0b6b46;text-decoration:underline;">' + esc(CONFIG.email.trim()) + '</a></div>' +
+        '<div style="font-size:11px;line-height:1.5;color:#5f6f68;margin-top:14px;">Comissão Interna de Supervisão do Plano de Carreira dos Cargos Técnico-Administrativos em Educação · Unifesspa</div>' +
+      '</td></tr></table>';
+  }
+
+  /* ---------- E-mail completo ---------- */
+  function buildEmail(){
+    const paras = cleanParagraphs(ed.innerHTML);
+    const body = paras.map(p =>
+      '<p style="margin:0 0 16px 0;font-family:' + FONT + ';font-size:16px;line-height:1.65;color:' + INK + ';text-align:' + p.align + ';">' + p.html + '</p>'
+    ).join('') || '<p style="margin:0 0 16px 0;font-family:' + FONT + ';font-size:16px;line-height:1.65;color:#8a968f;">O texto do comunicado aparece aqui.</p>';
+    return '<table role="presentation" width="745" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:745px;max-width:100%;background:#ffffff;">' +
+      '<tr><td style="padding:0;">' + headerHtml() + '</td></tr>' +
+      '<tr><td style="padding:36px 44px 20px 44px;">' + body + '</td></tr>' +
+      '<tr><td style="padding:0;">' + footerHtml() + '</td></tr>' +
+    '</table>';
+  }
+
+  /* ---------- Pré-visualização ---------- */
+  function fit(){
+    const stage = scaleBox.parentElement;
+    const avail = stage.clientWidth - 20;
+    const k = Math.min(1, avail / 745);
+    root.style.transform = 'scale(' + k + ')';
+    scaleBox.style.height = Math.ceil(root.offsetHeight * k) + 'px';
+  }
+  let raf = 0;
+  function update(){
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      ed.classList.toggle('is-empty', ed.textContent.trim() === '');
+      root.innerHTML = buildEmail();
+      fit();
+    });
+  }
+
+  /* ---------- Barra de formatação ---------- */
+  try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch(e) {}
+  const btns = Array.prototype.slice.call(document.querySelectorAll('.tb'));
+  btns.forEach(b => {
+    b.addEventListener('mousedown', e => e.preventDefault());
+    b.addEventListener('click', () => {
+      ed.focus();
+      document.execCommand(b.dataset.cmd, false, null);
+      refreshState(); update();
+    });
+  });
+  function refreshState(){
+    const sel = window.getSelection();
+    const inside = sel && sel.anchorNode && ed.contains(sel.anchorNode);
+    btns.forEach(b => {
+      let on = false;
+      if (inside) { try { on = document.queryCommandState(b.dataset.cmd); } catch(e) {} }
+      b.classList.toggle('on', !!on);
+    });
+  }
+  document.addEventListener('selectionchange', refreshState);
+
+
+  /* ---------- Imagens no texto ---------- */
+  const imgFile = $('imgFile'), imgBtn = $('imgBtn'), sizes = $('sizes');
+  let savedRange = null;
+  document.addEventListener('selectionchange', () => {
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount && ed.contains(sel.anchorNode)) savedRange = sel.getRangeAt(0).cloneRange();
+  });
+  function loadImage(file){
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const im = new Image();
+      im.onload = () => {
+        const MAXW = 1314, k = Math.min(1, MAXW / im.naturalWidth);
+        const c = document.createElement('canvas');
+        c.width = Math.round(im.naturalWidth * k); c.height = Math.round(im.naturalHeight * k);
+        const g = c.getContext('2d');
+        const png = /png|gif|webp|svg/i.test(file.type);
+        if (!png) { g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); }
+        g.drawImage(im, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        resolve(c.toDataURL(png ? 'image/png' : 'image/jpeg', 0.88));
+      };
+      im.onerror = () => { URL.revokeObjectURL(url); reject(); };
+      im.src = url;
+    });
+  }
+  async function addImage(file){
+    if (!file || !/^image\//.test(file.type)) return;
+    try {
+      const src = await loadImage(file);
+      ed.focus();
+      if (savedRange) { const s = window.getSelection(); s.removeAllRanges(); s.addRange(savedRange); }
+      document.execCommand('insertHTML', false, '<p><img src="' + src + '" data-w="657" alt="' + escAttr(file.name.replace(/\.[^.]+$/, '')) + '"></p><p><br></p>');
+      update();
+      say('Imagem inserida. Clique nela para mudar o tamanho ou remover.', 'ok');
+    } catch(e) { say('Não consegui abrir essa imagem.', 'warn'); }
+  }
+  imgBtn.addEventListener('mousedown', e => e.preventDefault());
+  imgBtn.addEventListener('click', () => imgFile.click());
+  imgFile.addEventListener('change', () => { addImage(imgFile.files[0]); imgFile.value = ''; });
+  let selImg = null;
+  function pick(img){
+    if (selImg) selImg.classList.remove('sel');
+    selImg = img; if (img) img.classList.add('sel');
+    sizes.classList.toggle('on', !!img);
+  }
+  ed.addEventListener('click', e => pick(e.target.tagName === 'IMG' ? e.target : null));
+  sizes.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b || !selImg) return;
+    if (b.dataset.del) { const p = selImg.parentNode; selImg.remove(); if (p && p.tagName === 'P' && !p.textContent.trim() && !p.querySelector('img')) p.remove(); pick(null); }
+    else { selImg.setAttribute('data-w', b.dataset.w); selImg.style.width = (b.dataset.w / 657 * 100) + '%'; }
+    update();
+  });
+
+  ed.addEventListener('input', update);
+  ed.addEventListener('paste', e => {
+    const files = (e.clipboardData && e.clipboardData.files) || [];
+    if (files.length && /^image\//.test(files[0].type)) { e.preventDefault(); addImage(files[0]); return; }
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData('text/plain').replace(/\r/g,'');
+    const html = text.split(/\n+/).map(l => '<p>' + (esc(l) || '<br>') + '</p>').join('');
+    document.execCommand('insertHTML', false, html);
+    update();
+  });
+  ['drop','dragover'].forEach(ev => ed.addEventListener(ev, e => e.preventDefault()));
+
+  /* ---------- Copiar ---------- */
+  const status = $('status'), copyBtn = $('copyBtn');
+  function say(msg, cls){ status.textContent = msg; status.className = cls || ''; }
+  copyBtn.addEventListener('click', async () => {
+    if (ed.textContent.trim() === '') { say('Escreva o texto do comunicado antes de copiar.', 'warn'); ed.focus(); return; }
+    const html = buildEmail();
+    const plain = ed.innerText;
+    let copied = false;
+    try {
+      if (navigator.clipboard && window.ClipboardItem) {
+        await navigator.clipboard.write([ new ClipboardItem({
+          'text/html': new Blob([html], {type:'text/html'}),
+          'text/plain': new Blob([plain], {type:'text/plain'})
+        }) ]);
+        copied = true;
+      }
+    } catch(e) {}
+    if (!copied) {
+      try {
+        const tmp = document.createElement('div');
+        tmp.style.cssText = 'position:fixed;left:-10000px;top:0;background:#fff;';
+        tmp.innerHTML = html; document.body.appendChild(tmp);
+        const r = document.createRange(); r.selectNodeContents(tmp);
+        const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        copied = document.execCommand('copy');
+        s.removeAllRanges(); tmp.remove();
+      } catch(e) {}
+    }
+    if (!copied) { say('Não consegui copiar. Selecione a pré-visualização e use Ctrl+C.', 'warn'); return; }
+
+    const usingDefaults = !footerSrc && (CONFIG.site === CONFIG.siteExemplo || CONFIG.email === CONFIG.emailExemplo);
+    copyBtn.classList.add('done'); copyBtn.textContent = 'Copiado!';
+    setTimeout(() => { copyBtn.classList.remove('done'); copyBtn.textContent = 'Copiar comunicado pronto'; }, 2200);
+    if (usingDefaults) say('Copiado, mas o site e o e-mail do rodapé ainda estão com o texto de exemplo.', 'warn');
+    else say('Comunicado copiado. Agora é só colar no corpo do e-mail.', 'ok');
+  });
+
+  /* ---------- Início ---------- */
+  window.addEventListener('resize', fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(scaleBox.parentElement);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  update();
+})();
+</script>
+</body>
+</html>
