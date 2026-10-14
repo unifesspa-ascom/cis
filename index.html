@@ -187,6 +187,7 @@ footer.credit{margin-top:6px;padding-top:18px;border-top:1px solid var(--line);t
   let footSite = '', footMail = '';
   probe('footer-site.png', v => footSite = v);
   probe('footer-email.png', v => footMail = v);
+  let footLogo = null; probe('logo-unifesspa.png', v => footLogo = v);
 
   /* ---------- Limpeza do texto digitado ---------- */
   function cleanParagraphs(html){
@@ -267,7 +268,8 @@ footer.credit{margin-top:6px;padding-top:18px;border-top:1px solid var(--line);t
     if (footSite && footMail) {
       const a = (href, src, w, alt) => '<a href="' + escAttr(href) + '" style="text-decoration:none;border:0;"><img src="' + escAttr(abs(src)) + '" width="' + w + '" alt="' + escAttr(alt) + '" style="display:block;border:0;width:' + w + 'px;height:auto;"></a>';
       /* 1863 px de largura total: corte em 920 -> 368 px + 377 px a 745 px */
-      return '<table role="presentation" width="745" cellpadding="0" cellspacing="0" border="0" bgcolor="#f5f5f5" style="width:745px;max-width:100%;background:#f5f5f5;"><tr>' +
+      const logoRow = footLogo ? '<tr><td colspan="2" align="center" style="padding:34px 0 6px 0;font-size:0;line-height:0;"><img src="' + escAttr(abs(footLogo)) + '" width="200" alt="Unifesspa" style="display:inline-block;border:0;width:200px;height:auto;"></td></tr>' : '';
+      return '<table role="presentation" width="745" cellpadding="0" cellspacing="0" border="0" bgcolor="#f5f5f5" style="width:745px;max-width:100%;background:#f5f5f5;">' + logoRow + '<tr>' +
         '<td width="368" style="padding:0;font-size:0;line-height:0;">' + a(siteUrl(CONFIG.site), footSite, 368, siteShow(CONFIG.site)) + '</td>' +
         '<td width="377" style="padding:0;font-size:0;line-height:0;">' + a('mailto:' + CONFIG.email.trim(), footMail, 377, CONFIG.email.trim()) + '</td>' +
       '</tr></table>';
