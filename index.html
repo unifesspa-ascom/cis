@@ -279,6 +279,7 @@ footer.credit{margin-top:6px;padding-top:18px;border-top:1px solid var(--line);t
       '<tr><td style="padding:0;">' + headerHtml() + '</td></tr>' +
       '<tr><td style="padding:36px 44px 20px 44px;">' + body + '</td></tr>' +
       '<tr><td style="padding:0;">' + footerHtml() + '</td></tr>' +
+      (footSite && footMail || footerSrc ? '<tr><td align="center" bgcolor="#f5f5f5" style="padding:0 44px 26px 44px;background:#f5f5f5;font-family:' + FONT + ';font-size:11px;line-height:1.5;color:#66716b;text-align:center;">Comissão Interna de Supervisão do Plano de Carreira dos Cargos Técnico-Administrativos em Educação</td></tr>' : '') +
     '</table>';
   }
 
